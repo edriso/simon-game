@@ -1,6 +1,4 @@
 const title = document.getElementById('level-title');
-const startButton = document.getElementById('level-title');
-const colors = document.getElementsByClassName('btn');
 
 const gameState = {
     name: 'Simon Game',
@@ -120,8 +118,35 @@ const gameState = {
     },
 };
 
+function createColorButtons() {
+    const container = document.querySelector('.container');
+    const colors = gameState.colors;
+
+    container.innerHTML = '';
+
+    // Create a row for each pair of colors (2 per row)
+    for (let i = 0; i < colors.length; i += 2) {
+        const row = document.createElement('div');
+        row.className = 'row';
+
+        // Create and append two buttons to the row
+        for (let j = 0; j < 2; j++) {
+            if (colors[i + j]) {
+                const button = document.createElement('div');
+                button.type = 'button';
+                button.id = colors[i + j];
+                button.className = `btn ${colors[i + j]}`;
+                row.appendChild(button);
+            }
+        }
+        container.appendChild(row);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    title.textContent = gameState.getTitle();
+    createColorButtons();
+    const startButton = document.getElementById('level-title');
+    const colors = document.getElementsByClassName('btn');
 
     startButton.addEventListener('click', () => {
         if(!gameState.started || gameState.ended) {
